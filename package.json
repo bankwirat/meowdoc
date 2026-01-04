@@ -1,0 +1,117 @@
+{
+  "name": "meowdoc",
+  "displayName": "Function Mapper",
+  "description": "Lists all functions and their relations using tree-sitter",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bankwirat/meowdoc"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "function-mapper-activitybar",
+          "title": "Function Mapper",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "function-mapper-activitybar": [
+        {
+          "id": "function-mapper-view",
+          "name": "Functions"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "meowdoc.selectScope",
+        "title": "Select Scope"
+      },
+      {
+        "command": "meowdoc.selectViewMode",
+        "title": "Select View Mode"
+      },
+      {
+        "command": "meowdoc.setView.folder",
+        "title": "Folder View"
+      },
+      {
+        "command": "meowdoc.setView.class",
+        "title": "Class View"
+      },
+      {
+        "command": "meowdoc.setView.flat",
+        "title": "Flat View"
+      }
+    ],
+    "submenus": [
+      {
+        "id": "meowdoc.viewModeSubmenu",
+        "label": "View Mode"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "submenu": "meowdoc.viewModeSubmenu",
+          "when": "view == function-mapper-view",
+          "group": "navigation",
+          "icon": "$(symbol-method)"
+        }
+      ],
+      "meowdoc.viewModeSubmenu": [
+        {
+          "command": "meowdoc.setView.folder",
+          "group": "1_view@1",
+          "toggled": "meowdoc.viewMode == folder"
+        },
+        {
+          "command": "meowdoc.setView.class",
+          "group": "1_view@2",
+          "toggled": "meowdoc.viewMode == class"
+        },
+        {
+          "command": "meowdoc.setView.flat",
+          "group": "1_view@3",
+          "toggled": "meowdoc.viewMode == flat"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package --allow-missing-repository",
+    "postinstall": "node ./scripts/download-wasm.js"
+  },
+  "devDependencies": {
+    "@types/node": "18.x",
+    "@types/vscode": "^1.80.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vscode/vsce": "^3.7.1",
+    "eslint": "^8.45.0",
+    "tree-sitter-cli": "^0.20.8",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "web-tree-sitter": "^0.20.8"
+  }
+}
